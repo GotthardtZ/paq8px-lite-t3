@@ -7,7 +7,7 @@ cmake-build-debug
 compile_commands.json
 build/*.o
 build/_error?_*.txt
-paq8px.exe
+*.exe
 paq8px
 paq8px.cbp
 CMakeFiles

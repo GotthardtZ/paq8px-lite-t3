@@ -6,7 +6,7 @@
 #include <cstdint>
 
 typedef enum {
-    FDECOMPRESS, FCOMPARE, FDISCARD
+    FDECOMPRESS, FCOMPARE
 } FMode;
 
 class Filter {

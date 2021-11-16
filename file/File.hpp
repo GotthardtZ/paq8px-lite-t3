@@ -22,10 +22,6 @@ public:
     virtual auto getchar() -> int = 0;
     virtual void putChar(uint8_t c) = 0;
     void append(const char *s);
-    virtual auto blockRead(uint8_t *ptr, uint64_t count) -> uint64_t = 0;
-    virtual void blockWrite(uint8_t *ptr, uint64_t count) = 0;
-    auto get32() -> uint32_t;
-    void put32(uint32_t x);
     auto getVLI() -> uint64_t;
     void putVLI(uint64_t i);
     virtual void setpos(uint64_t newPos) = 0;

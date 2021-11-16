@@ -11,36 +11,38 @@
  */
 class NormalModel {
 private:
-    static constexpr int nCM = 9;
-    static constexpr int nSM = 3;
+    static constexpr int nCM = ContextMap2::C; // 8
+    static constexpr int nSM = 8;
     Shared * const shared;
-    ContextMap2 cm;
-    StateMap smOrder0Slow;
-    StateMap smOrder1Slow;
-    StateMap smOrder1Fast;
+    uint64_t wordhash{};
+    uint8_t type{};
+    uint8_t lasttokentype{};
+    uint32_t ctx = 0;
+    
+    //for recordmodel
+    Array<uint32_t> cPos1{ 256 }, cPos2{ 256 }, cPos3{ 256 }, cPos4{ 256 };
+    uint32_t mismatchCount = 0; // mismatch count for the current record length
+    uint32_t rLength = 4; // current record length (initially as a default: 4)
+    bool isValidRecord = false;
+    uint32_t rLengthArchive[3] = { 0,0,0 }; // record length archive for quick re-detection
 public:
-    static constexpr int MIXERINPUTS =
-      nCM * (ContextMap2::MIXERINPUTS + ContextMap2::MIXERINPUTS_RUN_STATS + ContextMap2::MIXERINPUTS_BYTE_HISTORY) + 
-      nSM; //66
-    static constexpr int MIXERCONTEXTS_PRE = 64;
-    static constexpr int MIXERCONTEXTS_POST = 1024 + 256 + 512 + 256 + 256 + 1536; //3840
-    static constexpr int MIXERCONTEXTSETS_PRE = 1;
-    static constexpr int MIXERCONTEXTSETS_POST = 6;
+    static constexpr int MIXERINPUTS = nCM * (ContextMap2::MIXERINPUTS) + nSM; // 35
+    static constexpr int MIXERCONTEXTS =
+      (ContextMap2::C + 1) * 2 * 8 * 7 +//504
+      255 * 8 * 7 + //14280
+      (ContextMap2::C + 1) * 2 * 256 + //4608
+      19683 + //3^9
+      4 * 256 //1024
+    ; // 41227
+    static constexpr int MIXERCONTEXTSETS = 5;
     NormalModel(Shared* const sh, const uint64_t cmSize);
-    void reset();
 
-    /**
-     * update order 1..14 context hashes.
-     * Note: order 0 context does not need an update so its hash never changes.
-     */
-    void updateHashes();
+    ContextMap2 cm;
+    StateMap smOrder0;
+    StateMap smOrder1;
+    StateMap smOrder2;
+
     void mix(Mixer &m);
-
-    /**
-     * setting more mixer contexts in the generic case (i.e. not using the special models such as image, audio, jpeg models)
-     * @param m
-     */
-    void mixPost(Mixer &m);
 };
 
 #endif //PAQ8PX_NORMALMODEL_HPP
