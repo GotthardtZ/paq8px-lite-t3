@@ -24,9 +24,16 @@ paq8px-lite by Zoltán Gotthardt (unreleased as is, it's the basis of "Global Da
 - NormalModel - rewritten
 - Large file support
 
-paq8px-lite for mixed data (gdcc2021 test3) by Zoltán Gotthardt
+
+paq8px-lite-t3 for mixed data (gdcc2021 test3) by Zoltán Gotthardt
 2021.11.13
 - Added record detection and record model (loosely based on paq8px)
 - Added generic binary models
 - Added simple modelling for 4-byte structures (from paq8px)
 - Tuned parameters for "Global Data Compression Competition 2021" Test-set 3 "Mixed Data"
+
+
+paq8px-lite-t3-fix1 by Zoltán Gotthardt
+2021.12.03
+- Fixed reading filesize from archive greater then 4gb. 
+- Renamed utils.hpp to Utils.hpp to fix build on some linux systems.
